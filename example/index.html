@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <title>Amarillo example</title>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+  </head>
+  <script>
+    GLOBAL_FUNCS = {
+      query: function(graphName) {
+        var data = JSON.stringify({
+          "query": "{ humanoid(id: \"foo\") { name } droid(id: \"foo\") { name } starship(id: \"foo\") { name } }",
+          "variables": null,
+          "operationName": null
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === 4) {
+            var pretty = JSON.stringify(JSON.parse(this.responseText), null, 2);
+            console.log(pretty);
+            document.querySelector('.output-area').textContent = pretty;
+          }
+        });
+
+        xhr.open("POST", "http://localhost:4000/graphql");
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader("x-graph-name", graphName);
+        xhr.setRequestHeader("cache-control", "no-cache");
+
+        xhr.send(data);
+      }
+    }
+    GQL_REQUESTS = {
+      random: function() {
+        GLOBAL_FUNCS.query('random');
+      },
+      rotating: function() {
+        GLOBAL_FUNCS.query('rotating');
+      },
+      cumulative: function() {
+        GLOBAL_FUNCS.query('cumulative');
+      }
+    };
+  </script>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="column">
+          <br />
+          <h3>Welcome!</h3>
+          <p>Click any button to run that example. The response will be rendered below.</p>
+          <button onclick="GQL_REQUESTS.cumulative()">Cumulative</button>
+          <button onclick="GQL_REQUESTS.random()">Random</button>
+          <button onclick="GQL_REQUESTS.rotating()">Rotating</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <code style="white-space: pre; display: block" class="output-area"></code>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
