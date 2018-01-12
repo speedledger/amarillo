@@ -24,6 +24,7 @@ To use this library:
 
 * A graphql schema string
 * Proficiency in [graphql-tools mocking](https://www.apollographql.com/docs/graphql-tools/mocking.html)
+* Node.js `>= 8`
 * [Express.js](https://expressjs.com/)
   * A body-parser middleware
   * A cookie-parser middleware
@@ -32,6 +33,7 @@ To develop this library:
 
 * Proficiency in [graphql-tools mocking](https://www.apollographql.com/docs/graphql-tools/mocking.html)
 * Proficiency in [Express.js](https://expressjs.com/)
+* Node.js `>= 8`
 * Yarn `>= 1.0`
 
 # Getting started
@@ -40,13 +42,15 @@ To develop this library:
 * Add a mock, or default mock - see [Mock folder](#mock-folder).
 * Designate the mock folder in the environment variable `AMARILLO_MOCK_PATH`.
 * Mount the Amarillo middleware on a path of your choice - e.g. `app.use('/gql-mock', amarillo);`.
-* Start your server and start querying!
+* Start your server and start querying! See [Specifying a mock in your graphql query](#specifying-a-mock-in-your-graphql-query) for more info on to pick a mock per query.
 
 See [Running the example](#running-the-example) for an example and tips for getting started.
 
 # Mock folder
 
 Amarillo supports exactly one mock folder, with no subfolders. The mock folder contains all graph mocks, according to the [Mock format](#mock-format). The file name will denote the unique name of your mock, e.g `mocks/my-mock.js` will be given the unique name `my-mock`.
+
+When starting your app, the mock folder is designated by the mandatory `AMARILLO_MOCK_PATH` env variable.
 
 # Mock format
 
@@ -76,7 +80,12 @@ One way of doing this in your client per query is to use [the apollo client cont
 
 # Running the example
 
+The example is a separate node project found under `/example`. To start it:
+
 * Check out the repo
+
+In the example folder:
+
 * `yarn`
-* `yarn example`
-* visit [http:localhost:4000/index.html](http:localhost:4000/index.html) to run examples
+* `yarn start`
+* visit [http:localhost:4000/]() to run examples, or [http:localhost:4000/graphiql]() to run graphiql against the default mock.
