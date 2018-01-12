@@ -3,6 +3,9 @@ const { addMockFunctionsToSchema, makeExecutableSchema } = require('graphql-tool
 const { merge, isFinite, cloneDeep } = require('lodash');
 
 const { AMARILLO_MOCK_PATH } = process.env;
+if (!AMARILLO_MOCK_PATH) {
+  throw new Error('[Amarillo] Environment variable AMARILLO_MOCK_PATH missing');
+}
 
 /**
  * Uses information from the request and the mock to determine
