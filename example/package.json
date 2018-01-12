@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "dependencies": {
     "amarillo": "speedledger/amarillo",
@@ -15,6 +15,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
     "graphql": "^0.12.3",
-    "graphql-tools": "^2.16.0"
+    "graphql-tools": "^2.16.0",
+    "nodemon": "^1.14.11"
   }
 }
