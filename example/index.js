@@ -4,11 +4,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { graphiqlExpress } = require('apollo-server-express');
-const amarillo = require('../src/index');
+const amarillo = require('amarillo');
 
 const PORT = process.env.PORT || 4000;
 const app = express();
 
+app.all('/', (req, res) => res.redirect('/index.html'));
 app.get('/index.html', (req, res) => {
   // send the example page
   res.sendFile(`${__dirname}/index.html`);
@@ -31,6 +32,4 @@ app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 // mount amarillo middleware
 app.use('/graphql', amarillo);
 
-
-app.all('/', (req, res) => res.redirect('/graphiql'));
 app.listen(PORT, () => { console.log(`Running at port ${PORT}`); });
