@@ -1,5 +1,8 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amarillo example</title>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
     <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
@@ -7,21 +10,38 @@
   </head>
   <script>
     GLOBAL_FUNCS = {
-      query: function(graphName) {
+      renderCookies: function() {
+        var cookies = (document.cookie || '').replace(/\;\ /g, '\n');
+        document.querySelector('.cookie-area').textContent = cookies;
+      },
+      renderResponse: function(text) {
+        document.querySelector('.output-area').textContent = text;
+      },
+      objects: function(graphName) {
         var data = JSON.stringify({
-          "query": "{ humanoid(id: \"foo\") { name } droid(id: \"foo\") { name } starship(id: \"foo\") { name } }",
-          "variables": null,
-          "operationName": null
+          query: "{ humanoid(id: \"foo\") { name } droid(id: \"foo\") { name } starship(id: \"foo\") { name } }",
+          variables: null,
+          operationName: null
         });
-
+        GLOBAL_FUNCS.query(data, graphName);
+      },
+      search: function(graphName) {
+        var data = JSON.stringify({
+          query: "{ search { __typename, ...on Humanoid { name } ...on Droid { name } ...on Starship { name } } }",
+          variables: null,
+          operationName: null,
+        });
+        GLOBAL_FUNCS.query(data, graphName);
+      },
+      query: function(data, graphName) {
         var xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
 
         xhr.addEventListener("readystatechange", function () {
           if (this.readyState === 4) {
             var pretty = JSON.stringify(JSON.parse(this.responseText), null, 2);
-            console.log(pretty);
-            document.querySelector('.output-area').textContent = pretty;
+            GLOBAL_FUNCS.renderResponse(pretty);
+            GLOBAL_FUNCS.renderCookies();
           }
         });
 
@@ -35,32 +55,51 @@
     }
     GQL_REQUESTS = {
       random: function() {
-        GLOBAL_FUNCS.query('random');
+        GLOBAL_FUNCS.objects('random');
       },
       rotating: function() {
-        GLOBAL_FUNCS.query('rotating');
+        GLOBAL_FUNCS.objects('rotating');
       },
       cumulative: function() {
-        GLOBAL_FUNCS.query('cumulative');
-      }
+        GLOBAL_FUNCS.objects('cumulative');
+      },
+      search: function() {
+        GLOBAL_FUNCS.search('search');
+      },
     };
   </script>
   <body>
     <div class="container">
-      <div class="row">
+      <div style="text-align: center" class="row">
         <div class="column">
           <br />
-          <h3>Welcome!</h3>
+          <h2>Amarillo example mocks</h2>
           <p>Click any button to run that example. The response will be rendered below.</p>
+          <p>Or, visit the <a href="/graphiql">GraphiQL page to ping the default mock</a></p>
           <button onclick="GQL_REQUESTS.cumulative()">Cumulative</button>
           <button onclick="GQL_REQUESTS.random()">Random</button>
           <button onclick="GQL_REQUESTS.rotating()">Rotating</button>
-          <p>Or, visit the <a href="/graphiql">GraphiQL page to ping the default mock</a></p>
+          <button onclick="GQL_REQUESTS.search()">Search</button>
         </div>
       </div>
       <div class="row">
         <div class="column">
+          <hr />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <h5>Last response</h5>
           <code style="white-space: pre; display: block" class="output-area"></code>
+        </div>
+        <div class="column">
+          <h5>Last response cookies</h5>
+          <code style="white-space: pre; display: block" class="cookie-area"></code>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <hr />
         </div>
       </div>
     </div>
