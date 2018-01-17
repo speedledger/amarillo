@@ -102,4 +102,4 @@ In the example folder:
 
 * `yarn`
 * `yarn start`
-* visit [http://localhost:4000/]() to run examples, or [http://localhost:4000/graphiql]() to run graphiql against the default mock.
+* visit [http://localhost:4000/](http://localhost:4000/) to run examples, or [http://localhost:4000/graphiql](http://localhost:4000/graphiql) to run graphiql against the default mock.

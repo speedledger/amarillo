@@ -14,4 +14,4 @@ The example uses a slightly simplified version of the [Star Wars API Schema](htt
 
 * `yarn`
 * `yarn start`
-* visit [http://localhost:4000/]() to run examples, or [http://localhost:4000/graphiql]() run graphiql against the default mock.
+* visit [http://localhost:4000/](http://localhost:4000/) to run examples, or [http://localhost:4000/graphiql](http://localhost:4000/graphiql) to run graphiql against the default mock.
