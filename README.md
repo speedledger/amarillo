@@ -96,10 +96,10 @@ The delta functionality stores a cookie in the client to indicate which delta to
 
 The example is a separate node project found under `/example`. To start it:
 
-* Check out the repo
+* Check out the repo.
 
 In the example folder:
 
 * `yarn`
 * `yarn start`
-* visit [http:localhost:4000/]() to run examples, or [http:localhost:4000/graphiql]() to run graphiql against the default mock.
+* visit [http://localhost:4000/]() to run examples, or [http://localhost:4000/graphiql]() to run graphiql against the default mock.
