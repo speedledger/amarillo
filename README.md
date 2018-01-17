@@ -9,14 +9,25 @@ This library serves to act as a mock of one or many GraphQL graphs. It does so b
 
   * [Amarillo](#amarillo)
   * [Table of contents](#table-of-contents)
+  * [Why Amarillo](#why-amarillo)
   * [Requirements](#requirements)
   * [Getting started](#getting-started)
   * [Mock folder](#mock-folder)
+  * [Specifying a mock in your graphql query](#specifying-a-mock-in-your-graphql-query)
   * [Mock format](#mock-format)
     * [Deltas](#deltas)
-  * [Specifying a mock in your graphql query](#specifying-a-mock-in-your-graphql-query)
   * [Running the example](#running-the-example)
 
+
+# Why Amarillo
+
+This library is built with two primary use cases in mind:
+* Developing a web app that depends on a GraphQL API
+* Testing a web app that depends on a GraphQL API
+
+For development you may or may not have an API available to you. If you have the GraphQL schema setting up a rich mock is simple with Amarillo.
+
+For testing you might not want to depend on other services than the application you are testing. Amarillo can be run in the same process as your web app, or side by side, to make application testing without dependencies to other services simple.
 
 # Requirements
 
@@ -41,8 +52,9 @@ To develop this library:
 * Set up an express server with a body parser and cookie parser of your choice.
 * Add a mock, or default mock - see [Mock folder](#mock-folder).
 * Designate the mock folder in the environment variable `AMARILLO_MOCK_PATH`.
+* (optional) Configure a mock header name - see [Specifying a mock in your graphql query](#specifying-a-mock-in-your-graphql-query)
 * Mount the Amarillo middleware on a path of your choice - e.g. `app.use('/gql-mock', amarillo);`.
-* Start your server and start querying! See [Specifying a mock in your graphql query](#specifying-a-mock-in-your-graphql-query) for more info on to pick a mock per query.
+* Start your server and start querying! See [Specifying a mock in your graphql query](#specifying-a-mock-in-your-graphql-query) for more info on how to pick a mock per query.
 
 See [Running the example](#running-the-example) for an example and tips for getting started.
 
@@ -51,6 +63,16 @@ See [Running the example](#running-the-example) for an example and tips for gett
 Amarillo supports exactly one mock folder, with no subfolders. The mock folder contains all graph mocks, according to the [Mock format](#mock-format). The file name will denote the unique name of your mock, e.g `mocks/my-mock.js` will be given the unique name `my-mock`.
 
 When starting your app, the mock folder is designated by the mandatory `AMARILLO_MOCK_PATH` env variable.
+
+# Specifying a mock in your graphql query
+
+To specify which mock to use when responding to a query, the **optional** `amarillo-graph-name` can be set to the mocks name. If you want to change the header name, set the environment `AMARILLO_HEADER_NAME` to your desired name.
+
+How the graph name is chosen is described in [Mock folder](#mock-folder).
+
+If the header is not set, a mock named `default` will be used. If the header is not set and there is no mock named `default` the service will respond with a `500`.
+
+One way of doing this in your client per query is to use [the apollo client context](https://www.apollographql.com/docs/link/links/http.html#context)
 
 # Mock format
 
@@ -69,14 +91,6 @@ Each delta will override the mocking specified in the `mocks` field. The `deltas
 The deltas will be served round-robin, starting at index `0`. Once the last delta is served, the mock will serve one delta-free response and then start applyting deltas again.
 
 The delta functionality stores a cookie in the client to indicate which delta to serve next. If the client does not support cookies the initial state will always be served.
-
-# Specifying a mock in your graphql query
-
-To specify which mock to use when responding to a query, the **optional header `x-graph-name`** can be set to the mocks `name`. How the `name` is created is described in [Mock folder](#mock-folder).
-
-If the header is not set, a mock named `default` will be used. If there is no mock named `default` the service will respond with a `500`.
-
-One way of doing this in your client per query is to use [the apollo client context](https://www.apollographql.com/docs/link/links/http.html#context)
 
 # Running the example
 

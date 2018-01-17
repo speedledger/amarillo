@@ -1,6 +1,6 @@
 {
   "name": "amarillo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "a simple gql mock engine",
   "entry": "src/index.js",
   "main": "src/index.js",

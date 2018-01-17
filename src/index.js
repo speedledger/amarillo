@@ -3,6 +3,7 @@ const { addMockFunctionsToSchema, makeExecutableSchema } = require('graphql-tool
 const { generateMock } = require('./utils');
 
 const { AMARILLO_MOCK_PATH } = process.env;
+const AMARILLO_HEADER_NAME = process.env.AMARILLO_HEADER_NAME || 'amarillo-graph-name';
 if (!AMARILLO_MOCK_PATH) {
   throw new Error('[Amarillo] Environment variable AMARILLO_MOCK_PATH missing');
 }
@@ -33,7 +34,7 @@ const generateMockMiddleware = ({ req, res, graphName = 'default' }) => {
 
 // set up routes
 module.exports = (req, res, next) => {
-  const graphName = req.headers['x-graph-name'];
+  const graphName = req.headers[AMARILLO_HEADER_NAME];
   const middleware = generateMockMiddleware({ req, res, graphName });
 
   // If we've found a middleware - let it handle the response.
