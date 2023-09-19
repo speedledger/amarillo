@@ -15,8 +15,8 @@
     "prepush": "yarn test"
   },
   "dependencies": {
-    "apollo-server-express": "^1.3.2",
-    "graphql": "^0.12.3",
+    "graphql": "^16.6.0",
+    "@apollo/server": "^4.9.3",
     "graphql-tools": "^2.16.0",
     "lodash": "^4.17.4"
   },

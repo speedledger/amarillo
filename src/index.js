@@ -1,4 +1,4 @@
-const { graphqlExpress } = require('apollo-server-express');
+const { expressMiddleware } = require('@apollo/server');
 const { addMockFunctionsToSchema, makeExecutableSchema } = require('graphql-tools');
 const { generateMock } = require('./utils');
 
@@ -29,7 +29,7 @@ const generateMockMiddleware = ({ req, res, graphName = 'default' }) => {
   });
 
   addMockFunctionsToSchema({ schema, mocks: mocksWithDeltas, preserveResolvers: true });
-  return graphqlExpress({ schema });
+  return expressMiddleware({ schema });
 };
 
 // set up routes
