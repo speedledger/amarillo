@@ -1,6 +1,4 @@
 version: 2.1
-# orbs:
-#   cypress: cypress-io/cypress@1
 
 jobs:
   build:
@@ -25,12 +23,7 @@ jobs:
           key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache ## cache both yarn and Cypress!
-
-      - run:
-          name: Build artifacts
-          command: |
-            yarn build
-
+            -
       - run:
           name: Lint
           command: |
